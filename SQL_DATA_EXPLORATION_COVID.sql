@@ -1,6 +1,6 @@
 /*
 COVID 19 SQL DATA EXPLORATION
-DATASET: https://ourworldindata.org/covid-deaths UPTO APRIL 15 2022
+[LINK TO DATASET](https://ourworldindata.org/covid-deaths UPTO APRIL 15 2022)
 SKILLS USED: AGGREGATE FUNCTIONS, CONVERTING DATA TYPES, JOINS, WINDOW FUNCTIONS, CTE'S, TEMP TABLES, CREATING VIEWS
 */
 
@@ -147,7 +147,8 @@ JOIN ProtfolioProject..Covid_Vaccinations AS v
 -- CALCULATING ROLLING PEOPLE VACCINATED 
 
 
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --,(Rolling_People_Vaccinated/population)*100
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --,(Rolling_People_Vaccinated/population)*100
 FROM ProtfolioProject..Covid_Deaths AS d
 JOIN ProtfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -162,7 +163,8 @@ ORDER BY 2,3;
 WITH popvsvac (continent, location, date, population, new_vaccinations, Rolling_People_Vaccinated)
 AS 
 (
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated
 FROM ProtfolioProject..Covid_Deaths AS d
 JOIN ProtfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -188,7 +190,8 @@ Rolling_People_Vaccinated numeric
 )
 
 INSERT INTO #Vaccinated_Percentage
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
 FROM ProtfolioProject..Covid_Deaths AS d
 JOIN ProtfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -203,7 +206,8 @@ FROM #Vaccinated_Percentage
 -- CREATING VIEW TO STORE DATA FOR LATER VISUALIZATIONS
 
 CREATE VIEW Vaccinated_Percentage_View AS
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
 FROM ProtfolioProject..Covid_Deaths AS d
 JOIN ProtfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -215,20 +219,3 @@ DROP VIEW [Vaccinated_Percentage_View
 
 SELECT *
 FROM Vaccinated_Percentage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
