@@ -1,6 +1,6 @@
 /*
 COVID 19 SQL DATA EXPLORATION
-[LINK TO DATASET](https://ourworldindata.org/covid-deaths)
+DATASET: https://ourworldindata.org/covid-deaths UPTO APRIL 15 2022
 SKILLS USED: AGGREGATE FUNCTIONS, CONVERTING DATA TYPES, JOINS, WINDOW FUNCTIONS, CTE'S, TEMP TABLES, CREATING VIEWS
 */
 
@@ -215,7 +215,7 @@ JOIN ProtfolioProject..Covid_Vaccinations AS v
 WHERE d.continent IS NOT NULL
 -- ORDER BY 2,3
 
-DROP VIEW [Vaccinated_Percentage_View
+DROP VIEW [Vaccinated_Percentage_View]
 
 SELECT *
 FROM Vaccinated_Percentage
