@@ -134,7 +134,8 @@ ORDER BY 2 DESC;
 -- GLOBAL NUMBERS
 -- AS 0F APRIL 15, 2022, THERE ARE 502,453,378 TOTAL CASES, 6,154,985 TOTAL DEATHS AND 1.22% DEATH PERCENTAGE GLOBAL
 
-SELECT SUM(new_cases) AS Total_Cases, sum(CAST(new_deaths AS int)) AS Total_Deaths, ROUND((sum(CAST(new_deaths AS int))/SUM(new_cases))*100,2) AS Death_Percentage
+SELECT SUM(new_cases) AS Total_Cases, sum(CAST(new_deaths AS int)) AS Total_Deaths, 
+        ROUND((sum(CAST(new_deaths AS int))/SUM(new_cases))*100,2) AS Death_Percentage
 FROM PortfolioProject..Covid_Deaths
 WHERE continent IS NOT NULL
 ORDER BY 1,2;
@@ -155,7 +156,8 @@ JOIN PortfolioProject..Covid_Vaccinations AS v
 -- CALCULATING ROLLING PEOPLE VACCINATED 
 
 
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --,(Rolling_People_Vaccinated/population)*100
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --,(Rolling_People_Vaccinated/population)*100
 FROM PortfolioProject..Covid_Deaths AS d
 JOIN PortfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -171,7 +173,8 @@ ORDER BY 2,3;
 WITH popvsvac (continent, location, date, population, new_vaccinations, Rolling_People_Vaccinated)
 AS 
 (
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated
 FROM PortfolioProject..Covid_Deaths AS d
 JOIN PortfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -198,7 +201,8 @@ Rolling_People_Vaccinated numeric
 )
 
 INSERT INTO #Vaccinated_Percentage
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
 FROM PortfolioProject..Covid_Deaths AS d
 JOIN PortfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -214,7 +218,8 @@ FROM #Vaccinated_Percentage
 -- CREATING VIEW TO STORE DATA FOR LATER VISUALIZATIONS
 
 CREATE VIEW Vaccinated_Percentage_View AS
-SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
+SELECT d.continent, d.location, d.date, d.population, v.new_vaccinations, SUM(CONVERT(INT,v.new_vaccinations)) 
+       OVER (PARTITION BY d.location ORDER BY d.location, d.date) AS Rolling_People_Vaccinated --, (Rolling_People_Vaccinated/Population)*100 
 FROM PortfolioProject..Covid_Deaths AS d
 JOIN PortfolioProject..Covid_Vaccinations AS v
        ON d.location = v.location 
@@ -228,18 +233,3 @@ SELECT *
 FROM Vaccinated_Percentage
 
 -------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
